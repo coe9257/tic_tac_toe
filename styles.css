@@ -82,6 +82,10 @@ h1 {
 .row_3_square_3 {
     width: 33%;
     height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 4rem;
 }
 
 .row_1_square_1,
