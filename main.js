@@ -41,20 +41,16 @@ function createTicTacToeGame(className) {
         computer_pick = null;
         game_move_status = null;
 
-        console.log(board);
-
-        // board.forEach(function (element) {
-        //     board.element = "";
-        // })
-
         for (const key in board) {
             if (board.hasOwnProperty(key)) {
                 board[key] = "";
             } 
         }
 
-        document.querySelector('.start_game_container').appendChild(select_piece_html);
-        select_piece_html = null;
+        if (select_piece_html != null) {
+            document.querySelector('.start_game_container').appendChild(select_piece_html);
+            select_piece_html = null;
+        }
 
         const squares = document.querySelectorAll('.squares');
 
@@ -84,8 +80,16 @@ function createTicTacToeGame(className) {
                 return "O"; // Player "O" won
             }
         }
-    
-        return null; // No winner yet
+
+        const isDraw = Object.values(board).every(symbol => symbol === "X" || symbol === "O");
+
+        if (isDraw) {
+            document.querySelector('h1').textContent = `IT'S A DRAW!`;
+            setTimeout(() => start_over(null), 3000);
+            return null;
+        }
+
+        return null;
     }
 
     function start_game_player_selection(className) {
@@ -131,14 +135,14 @@ function createTicTacToeGame(className) {
             // console.log(`element_choice: `, element_choice, ` array[number]: ${array[number]}`);
             element_choice.textContent = computer_pick;
             const className_computer_pick = element_choice.classList[0];
-            board[className_computer_pick] = "O";
+            board[className_computer_pick] = `${computer_pick}`;
         }
         
         let round_check = check_win_condition();
         
         if (round_check != null) {
             document.querySelector('h1').textContent = `PLAYER ${computer_pick} IS THE WINNER!`;
-            setTimeout(() => start_over(win_condition), 3000);
+            setTimeout(() => start_over(round_check), 3000);
         };
     }
 
